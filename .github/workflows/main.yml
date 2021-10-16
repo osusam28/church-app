@@ -43,8 +43,8 @@ jobs:
     
     - name: Run Build
       run: |
-        TAG=$(cat .version)_${{ steps.setup_env.outputs.tag_ts }}
         cd api/directory/family
+        TAG=$(cat .version)_${{ steps.setup_env.outputs.tag_ts }}
         gcloud builds submit --tag gcr.io/rbc-louisville-project/family-api:$TAG
       
     - name: Deploy
