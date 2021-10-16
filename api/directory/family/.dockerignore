@@ -5,4 +5,5 @@ README.md
 *.pyd
 __pycache__
 .pytest_cache
-test/*
+test/
+__init__.py

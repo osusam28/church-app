@@ -51,4 +51,4 @@ jobs:
       run: |
         cd api/directory/family
         TAG=$(cat .version)_${{ steps.setup_env.outputs.tag_ts }}
-        gcloud run deploy family-api --image gcr.io/rbc-louisville-project/family-api:$TAG --region us-east1 --no-allow-unauthenticated
+        gcloud run deploy family-api --image gcr.io/rbc-louisville-project/family-api:$TAG --region us-east1 --no-allow-unauthenticated --port 80
