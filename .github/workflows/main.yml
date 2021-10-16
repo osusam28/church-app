@@ -36,14 +36,17 @@ jobs:
         export_default_credentials: true
 
     - name: Setup Env
+      id: setup_env
       run: |
         export TAG_TS=$(date +"%Y%m%d%H%M%S")
-        echo "::set-env name=TAG_TS::$TAG_TS"
+        echo "::set-output name=tag_ts::$TAG_TS"
     
     - name: Run Build
       run: |
-        TAG=$(cat .version)_$TAG_TS
+        TAG=$(cat .version)_${{ steps.setup_env.outputs.tag_ts }}
+        cd api/directory/family
         gcloud builds submit --tag gcr.io/rbc-louisville-project/family-api:$TAG
+      
     - name: Deploy
       run: |
         TAG=$(cat .version)
