@@ -60,46 +60,4 @@ jobs:
         TAG=$(cat .version)_${{ steps.setup_env.outputs.tag_ts }}
         gcloud run deploy family-api --image gcr.io/$PROJECT_ID/family-api:$TAG --region $REGION --no-allow-unauthenticated --port 80
 
-  api-gateway-deploy:
-    runs-on: ubuntu-latest
-    needs: family-api-deploy
-
-    env:
-      API_ID: rbcl-family-api
-
-    steps:
-    # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
-    - uses: actions/checkout@v2
-        
-    - name: Setup Python
-      uses: actions/setup-python@v2
-      with:
-        python-version: 3.8
-    
-    - name: Gcloud Setup
-      uses: google-github-actions/setup-gcloud@master
-      with:
-        project_id: $PROJECT_ID
-        service_account_email: $SERVICE_ACCOUNT_EMAIL
-        service_account_key: ${{ secrets.SERVICE_ACCOUNT_KEY }}
-        export_default_credentials: true
-
-    - name: Deploy Gateway Config
-      run: |
-        gcloud api-gateway api-configs create $GATEWAY_ID-config \
-        --api=$API_ID --openapi-spec=api/gateway.yaml \
-        --project=$PROJECT_ID --backend-auth-service-account=$SERVICE_ACCOUNT_EMAIL
-
-    - name: Deploy Gateway
-      run: |
-        gcloud api-gateway gateways create $GATEWAY_ID \
-        --api=$API_ID --api-config=$GATEWAY_ID-config \
-        --location=$REGION --project=$PROJECT_ID
-
-    - name: Deploy Gateway NEG
-      run: |
-        gcloud compute network-endpoint-groups create $GATEWAY_NEG_ID
-        --region=$REGION \
-        --network-endpoint-type=serverless \
-        --serverless-deployment-platform=apigateway.googleapis.com \
-        --serverless-deployment-resource=$GATEWAY_ID
+  
