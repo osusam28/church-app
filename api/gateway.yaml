@@ -1,0 +1,32 @@
+swagger: '2.0'
+info:
+  title: Family API
+  description: Allows for interaction with RBCL family data
+  version: 0.1.0
+#host: api.rbclouisville.com
+basePath: /api/v1/families
+schemes:
+  - https
+produces:
+  - application/json
+x-google-backend:
+  address: https://family-api-6mu2ejwioa-ue.a.run.app
+paths:
+  /:
+    get:
+      summary: Get all family resources
+      operationId: getFamilies
+      responses:
+        '200':
+          description: OK
+          schema:
+            type: string
+  /status:
+    get:
+      summary: Cloud Run api status check
+      operationId: status
+      responses:
+        '200':
+          description: OK
+          schema:
+            type: string

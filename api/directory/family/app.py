@@ -7,7 +7,7 @@ app = Flask(__name__)
 db = firestore.Client()
 
 
-@app.route("/getFamilyEntity/all")
+@app.route("/")
 def get_family_entities():
     print('receiving request ...')
 
@@ -26,11 +26,11 @@ def get_family_entities():
     
     return json.dumps(out)
 
-@app.route("/getFamilyEntity")
-def get_family_entity():
-    print('receiving request ...')
+@app.route("/status")
+def status():
+    print('receiving status request ...')
 
-    raise NotImplementedError()
+    return 'alive'
 
 
 if __name__ == "__main__":
