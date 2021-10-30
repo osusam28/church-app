@@ -37,9 +37,9 @@ jobs:
     - name: Gcloud Setup
       uses: google-github-actions/setup-gcloud@master
       with:
-        project_id: ${{ var.PROJECT_ID }}
-        service_account_email: ${{ var.SERVICE_ACCOUNT_EMAIL }}
-        service_account_key: ${{ secrets.SERVICE_ACCOUNT_KEY }}
+        project_id: $PROJECT_ID
+        service_account_email: $SERVICE_ACCOUNT_EMAIL
+        service_account_key: $SERVICE_ACCOUNT_KEY
         export_default_credentials: true
 
     - name: Setup Env
@@ -52,13 +52,13 @@ jobs:
       run: |
         cd api/directory/family
         TAG=$(cat .version)_${{ steps.setup_env.outputs.tag_ts }}
-        gcloud builds submit --tag gcr.io/${{ var.PROJECT_ID }}/family-api:$TAG
+        gcloud builds submit --tag gcr.io/$PROJECT_ID/family-api:$TAG
       
     - name: Deploy
       run: |
         cd api/directory/family
         TAG=$(cat .version)_${{ steps.setup_env.outputs.tag_ts }}
-        gcloud run deploy family-api --image gcr.io/${{ var.PROJECT_ID }}/family-api:$TAG --region ${{ var.REGION }} --no-allow-unauthenticated --port 80
+        gcloud run deploy family-api --image gcr.io/$PROJECT_ID/family-api:$TAG --region $REGION --no-allow-unauthenticated --port 80
 
   api-gateway-deploy:
     runs-on: ubuntu-latest
@@ -79,27 +79,27 @@ jobs:
     - name: Gcloud Setup
       uses: google-github-actions/setup-gcloud@master
       with:
-        project_id: ${{ var.PROJECT_ID }}
-        service_account_email: ${{ var.SERVICE_ACCOUNT_EMAIL }}
-        service_account_key: ${{ secrets.SERVICE_ACCOUNT_KEY }}
+        project_id: $PROJECT_ID
+        service_account_email: $SERVICE_ACCOUNT_EMAIL
+        service_account_key: $SERVICE_ACCOUNT_KEY
         export_default_credentials: true
 
     - name: Deploy Gateway Config
       run: |
-        gcloud api-gateway api-configs create ${{ var.GATEWAY_ID }}-config \
+        gcloud api-gateway api-configs create $GATEWAY_ID-config \
         --api=$API_ID --openapi-spec=api/gateway.yaml \
-        --project=${{ var.PROJECT_ID }} --backend-auth-service-account=${{ var.SERVICE_ACCOUNT_EMAIL }}
+        --project=$PROJECT_ID --backend-auth-service-account=$SERVICE_ACCOUNT_EMAIL
 
     - name: Deploy Gateway
       run: |
-        gcloud api-gateway gateways create ${{ var.GATEWAY_ID }} \
-        --api=$API_ID --api-config=${{ var.GATEWAY_ID }}-config \
-        --location=${{ var.REGION }} --project=${{ var.PROJECT_ID }}
+        gcloud api-gateway gateways create $GATEWAY_ID \
+        --api=$API_ID --api-config=$GATEWAY_ID-config \
+        --location=$REGION --project=$PROJECT_ID
 
     - name: Deploy Gateway NEG
       run: |
-        gcloud compute network-endpoint-groups create ${{ var.GATEWAY_NEG_ID }}
-        --region=${{ var.REGION }} \
+        gcloud compute network-endpoint-groups create $GATEWAY_NEG_ID
+        --region=$REGION \
         --network-endpoint-type=serverless \
         --serverless-deployment-platform=apigateway.googleapis.com \
-        --serverless-deployment-resource=${{ var.GATEWAY_ID }}
+        --serverless-deployment-resource=$GATEWAY_ID
