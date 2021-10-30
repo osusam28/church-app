@@ -20,6 +20,46 @@ env:
 
 # A workflow run is made up of one or more jobs that can run sequentially or in parallel
 jobs:
+  family-api-deploy:
+    # The type of runner that the job will run on
+    runs-on: ubuntu-latest
+
+    # Steps represent a sequence of tasks that will be executed as part of the job
+    steps:
+    # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
+    - uses: actions/checkout@v2
+        
+    - name: Setup Python
+      uses: actions/setup-python@v2
+      with:
+        python-version: 3.8
+    
+    - name: Gcloud Setup
+      uses: google-github-actions/setup-gcloud@master
+      with:
+        project_id: $PROJECT_ID
+        service_account_email: $SERVICE_ACCOUNT_EMAIL
+        service_account_key: ${{ secrets.SERVICE_ACCOUNT_KEY }}
+        export_default_credentials: true
+
+    - name: Setup Env
+      id: setup_env
+      run: |
+        export TAG_TS=$(date +"%Y%m%d%H%M%S")
+        echo "::set-output name=tag_ts::$TAG_TS"
+    
+    - name: Run Build
+      run: |
+        cd api/directory/family
+        TAG=$(cat .version)_${{ steps.setup_env.outputs.tag_ts }}
+        gcloud builds submit --tag gcr.io/$PROJECT_ID/family-api:$TAG
+      
+    - name: Deploy
+      run: |
+        cd api/directory/family
+        TAG=$(cat .version)_${{ steps.setup_env.outputs.tag_ts }}
+        gcloud run deploy family-api --image gcr.io/$PROJECT_ID/family-api:$TAG --region $REGION --no-allow-unauthenticated --port 80
+
   api-gateway-deploy:
     runs-on: ubuntu-latest
     needs: family-api-deploy
@@ -63,43 +103,3 @@ jobs:
         --network-endpoint-type=serverless \
         --serverless-deployment-platform=apigateway.googleapis.com \
         --serverless-deployment-resource=$GATEWAY_ID
-
-  family-api-deploy:
-    # The type of runner that the job will run on
-    runs-on: ubuntu-latest
-
-    # Steps represent a sequence of tasks that will be executed as part of the job
-    steps:
-    # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
-    - uses: actions/checkout@v2
-        
-    - name: Setup Python
-      uses: actions/setup-python@v2
-      with:
-        python-version: 3.8
-    
-    - name: Gcloud Setup
-      uses: google-github-actions/setup-gcloud@master
-      with:
-        project_id: $PROJECT_ID
-        service_account_email: $SERVICE_ACCOUNT_EMAIL
-        service_account_key: ${{ secrets.SERVICE_ACCOUNT_KEY }}
-        export_default_credentials: true
-
-    - name: Setup Env
-      id: setup_env
-      run: |
-        export TAG_TS=$(date +"%Y%m%d%H%M%S")
-        echo "::set-output name=tag_ts::$TAG_TS"
-    
-    - name: Run Build
-      run: |
-        cd api/directory/family
-        TAG=$(cat .version)_${{ steps.setup_env.outputs.tag_ts }}
-        gcloud builds submit --tag gcr.io/$PROJECT_ID/family-api:$TAG
-      
-    - name: Deploy
-      run: |
-        cd api/directory/family
-        TAG=$(cat .version)_${{ steps.setup_env.outputs.tag_ts }}
-        gcloud run deploy family-api --image gcr.io/$PROJECT_ID/family-api:$TAG --region $REGION --no-allow-unauthenticated --port 80
