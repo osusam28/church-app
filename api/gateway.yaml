@@ -4,7 +4,7 @@ info:
   description: Allows for interaction with RBCL family data
   version: 0.1.0
 #host: api.rbclouisville.com
-basePath: /api/v1/families
+basePath: /api/v1
 schemes:
   - https
 produces:
@@ -12,7 +12,7 @@ produces:
 x-google-backend:
   address: https://family-api-6mu2ejwioa-ue.a.run.app
 paths:
-  /:
+  /families:
     get:
       summary: Get all family resources
       operationId: getFamilies
@@ -21,7 +21,7 @@ paths:
           description: OK
           schema:
             type: string
-  /status:
+  /families/status:
     get:
       summary: Cloud Run api status check
       operationId: status
