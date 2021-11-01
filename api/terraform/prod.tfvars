@@ -1,6 +1,4 @@
-project                 = "rbc-louisville-project"
 region                  = "us-east1"
-deploy_sa_email         = "deploy@rbc-louisville-project.iam.gserviceaccount.com"
 
 domain                  = "api.rbclouisville.com"
 https_redirect_flag     = true

@@ -11,6 +11,8 @@ on:
 
 env:
   API_TERRAFORM_DIR: api/terraform
+  PROJECT_ID: rbc-louisville-project
+  SERVICE_ACCOUNT_EMAIL: deploy@rbc-louisville-project.iam.gserviceaccount.com
 
 # A workflow run is made up of one or more jobs that can run sequentially or in parallel
 jobs:
@@ -82,6 +84,8 @@ jobs:
       # if: github.event_name == 'pull_request'
       run: |
         export TF_VAR_family_api_image_url=${{ steps.build.outputs.image_url }}
+        export TF_VAR_project=$PROJECT_ID
+        export TF_VAR_deploy_sa_email=$SERVICE_ACCOUNT_EMAIL
         terraform plan -no-color -input=false -var-file="prod.tfvars" -out="plan.txt"
       # continue-on-error: true
 
