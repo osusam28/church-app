@@ -9,13 +9,15 @@ schemes:
   - https
 produces:
   - application/json
-x-google-backend:
-  address: https://family-api-6mu2ejwioa-ue.a.run.app
+#x-google-backend:
+#  address: https://family-api-6mu2ejwioa-ue.a.run.app
 paths:
   /families:
     get:
       summary: Get all family resources
       operationId: getFamilies
+      x-google-backend:
+        address: https://family-api-6mu2ejwioa-ue.a.run.app
       responses:
         '200':
           description: OK
@@ -24,7 +26,9 @@ paths:
   /families/status:
     get:
       summary: Cloud Run api status check
-      operationId: status
+      operationId: familiesStatus
+      x-google-backend:
+        address: https://family-api-6mu2ejwioa-ue.a.run.app/status
       responses:
         '200':
           description: OK
