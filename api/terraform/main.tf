@@ -16,7 +16,7 @@ terraform {
 }
 
 module "apps" {
-  source               = "modules/apps"
+  source               = "./modules/apps"
   region               = var.region
   family_api_name      = var.family_api_name
   family_api_image_url = var.family_api_image_url
