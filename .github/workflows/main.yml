@@ -98,7 +98,7 @@ jobs:
     - uses: actions/upload-artifact@v2
       with: 
         name: api-deploy-plan
-        path: $API_TERRAFORM_DIR/plan.txt
+        path: ${{ env.API_TERRAFORM_DIR }}/plan.txt
         retention-days: 7
 
   api-deploy:
