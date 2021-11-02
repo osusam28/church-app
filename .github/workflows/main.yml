@@ -92,6 +92,7 @@ jobs:
         export TF_VAR_project=$PROJECT_ID
         export TF_VAR_deploy_sa_email=$SERVICE_ACCOUNT_EMAIL
         terraform plan -no-color -input=false -var-file="prod.tfvars" -out="plan.txt"
+        ls
       # continue-on-error: true
 
     - uses: actions/upload-artifact@v2
