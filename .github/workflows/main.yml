@@ -111,6 +111,7 @@ jobs:
     - uses: actions/download-artifact@v2
       with:
         name: api-deploy-plan
+        path: ${{ env.API_TERRAFORM_DIR }}
         
     - name: Setup Python
       uses: actions/setup-python@v2
