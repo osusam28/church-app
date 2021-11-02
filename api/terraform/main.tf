@@ -10,8 +10,8 @@ provider "google-beta" {
 
 terraform {
   backend "gcs" {
-    bucket  = "${var.project}.appspot.com"
-    prefix  = "terraform/state/church-app"
+    bucket  = "rbc-louisville-project.appspot.com"
+    prefix  = "terraform/state/church-app/api"
   }
 }
 
