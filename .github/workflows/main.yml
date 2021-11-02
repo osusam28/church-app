@@ -79,13 +79,15 @@ jobs:
 
     - name: Terraform Validate
       id: validate
-      run: terraform validate -no-color
+      run: |
+        cd $API_TERRAFORM_DIR
+        terraform validate -no-color
     
     - name: Terraform Plan
       id: plan
       # if: github.event_name == 'pull_request'
       run: |
-        ls
+        cd $API_TERRAFORM_DIR
         export TF_VAR_family_api_image_url=${{ needs.family-api-build.outputs.imageUrl }}
         export TF_VAR_project=$PROJECT_ID
         export TF_VAR_deploy_sa_email=$SERVICE_ACCOUNT_EMAIL
@@ -95,7 +97,8 @@ jobs:
     - uses: actions/upload-artifact@v2
       with: 
         name: api-deploy-plan
-        path: plan.txt
+        path: $API_TERRAFORM_DIR/plan.txt
+        retention-days: 7
 
   api-deploy:
     runs-on: ubuntu-latest
@@ -136,4 +139,5 @@ jobs:
       id: apply
       # if: github.ref == 'refs/heads/main' && github.event_name == 'push'
       run: |
+        cd $API_TERRAFORM_DIR
         terraform apply -input=false plan.txt
