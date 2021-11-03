@@ -10,6 +10,10 @@ variable "rbcl_api_config_name" {
   
 }
 
+variable "rbc_api_gw_name" {
+  
+}
+
 variable "family_api_url" {
   
 }

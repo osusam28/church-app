@@ -27,6 +27,7 @@ module "gateway" {
   deploy_sa_email      = var.deploy_sa_email
   rbcl_api_name        = var.rbcl_api_name
   rbcl_api_config_name = var.rbcl_api_config_name
+  rbc_api_gw_name      = var.rbc_api_gw_name
   family_api_url       = module.apps.family_api_url
 }
 
