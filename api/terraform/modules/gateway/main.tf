@@ -11,7 +11,14 @@ resource "google_api_gateway_api_config" "rbcl_api_gw" {
   openapi_documents {
     document {
       path = "./gateway.yaml"
-      contents = filebase64("./gateway.yaml")
+      contents = filebase64(
+        templatefile(
+          "./gateway.yaml",
+          {
+            family_api_url = var.family_api_url
+          }
+        )
+      )
     }
   }
   gateway_config {

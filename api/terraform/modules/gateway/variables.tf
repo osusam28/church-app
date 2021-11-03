@@ -9,3 +9,7 @@ variable "rbcl_api_name" {
 variable "rbcl_api_config_name" {
   
 }
+
+variable "family_api_url" {
+  
+}

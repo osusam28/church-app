@@ -17,7 +17,7 @@ paths:
       summary: Get all family resources
       operationId: getFamilies
       x-google-backend:
-        address: https://family-api-6mu2ejwioa-ue.a.run.app
+        address: ${family_api_url}
       responses:
         '200':
           description: OK
@@ -28,7 +28,7 @@ paths:
       summary: Cloud Run api status check
       operationId: familiesStatus
       x-google-backend:
-        address: https://family-api-6mu2ejwioa-ue.a.run.app/status
+        address: ${family_api_url}/status
       responses:
         '200':
           description: OK
