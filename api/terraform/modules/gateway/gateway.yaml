@@ -34,3 +34,15 @@ paths:
           description: OK
           schema:
             type: string
+security:
+  - auth0_jwk: []
+securityDefinitions:
+  auth0_jwk:
+    authorizationUrl: ""
+    flow: "implicit"
+    type: "oauth2"
+    # Replace YOUR-ACCOUNT-NAME with your Auth0 account name.
+    x-google-issuer: "https://${account_name}.auth0.com/"
+    x-google-jwks_uri: "https://${account_name}.auth0.com/.well-known/jwks.json"
+    # Optional. Replace YOUR-CLIENT-ID with your client ID
+    x-google-audiences: "D37tNLIU28dZMsj1SOyK0DL7ku5NDChf"

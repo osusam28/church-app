@@ -17,3 +17,7 @@ variable "rbc_api_gw_name" {
 variable "family_api_url" {
   
 }
+
+variable "auth0_account_name" {
+  
+}

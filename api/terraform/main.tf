@@ -29,5 +29,6 @@ module "gateway" {
   rbcl_api_config_name = var.rbcl_api_config_name
   rbc_api_gw_name      = var.rbc_api_gw_name
   family_api_url       = module.apps.family_api_url
+  auth0_account_name   = var.auth0_account_name
 }
 

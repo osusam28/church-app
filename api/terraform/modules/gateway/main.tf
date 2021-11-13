@@ -6,7 +6,7 @@ resource "google_api_gateway_api" "rbcl_api_gw" {
 resource "google_api_gateway_api_config" "rbcl_api_gw" {
   provider = google-beta
   api = google_api_gateway_api.rbcl_api_gw.api_id
-  api_config_id_prefix = var.rbcl_api_config_name
+  api_config_id_prefix = "${var.rbcl_api_config_name}-"
 
   openapi_documents {
     document {
@@ -16,6 +16,7 @@ resource "google_api_gateway_api_config" "rbcl_api_gw" {
           "${path.module}/gateway.yaml",
           {
             family_api_url = var.family_api_url
+            account_name   = var.auth0_account_name
           }
         )
       )
