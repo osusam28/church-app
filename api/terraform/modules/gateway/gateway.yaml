@@ -39,8 +39,8 @@ security:
 securityDefinitions:
   auth0_jwk:
     authorizationUrl: "" # "https://${account_name}.auth0.com/authorize"
-    # tokenUrl: "https://${account_name}.auth0.com/authorize"
-    flow: "implicit"
+    # tokenUrl: "https://${account_name}.auth0.com/oauth/token"
+    flow: "implicit" # "accessCode"
     type: "oauth2"
     x-google-issuer: "https://${account_name}.auth0.com/"
     x-google-jwks_uri: "https://${account_name}.auth0.com/.well-known/jwks.json"
