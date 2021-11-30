@@ -1,8 +1,8 @@
 swagger: '2.0'
 info:
-  title: Family API
-  description: Allows for interaction with RBCL family data
-  version: 0.1.0
+  title: RBCL API
+  description: Allows for interaction with RBCL data
+  version: 0.2.0
 #host: api.rbclouisville.com
 basePath: /api/v1
 schemes:
@@ -12,7 +12,7 @@ produces:
 #x-google-backend:
 #  address: https://family-api-6mu2ejwioa-ue.a.run.app
 paths:
-  /families:
+  /directory/families:
     get:
       summary: Get all family resources
       operationId: getFamilies
@@ -23,9 +23,9 @@ paths:
           description: OK
           schema:
             type: string
-  /families/status:
+  /directory/families/status:
     get:
-      summary: Cloud Run api status check
+      summary: Family API status check
       operationId: familiesStatus
       x-google-backend:
         address: ${family_api_url}/status
@@ -38,9 +38,8 @@ security:
   - auth0_jwk: []
 securityDefinitions:
   auth0_jwk:
-    authorizationUrl: "" # "https://${account_name}.auth0.com/authorize"
-    # tokenUrl: "https://${account_name}.auth0.com/oauth/token"
-    flow: "implicit" # "accessCode"
+    authorizationUrl: ""
+    flow: "implicit"
     type: "oauth2"
     x-google-issuer: "https://${account_name}.auth0.com/"
     x-google-jwks_uri: "https://${account_name}.auth0.com/.well-known/jwks.json"
